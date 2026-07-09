@@ -4906,13 +4906,9 @@ static NOINLINE void ggml_vec_dot_iq3_s_q8_K_vl256(int n, float * GGML_RESTRICT 
 
     const uint64_t * grid64 = (const uint64_t *)iq3s_grid;
 
-    // --- Pre-load Constants ---
-    const uint16_t qh_bit_shifts_arr[16] = {
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
-    };
     vuint8m2_t v_sign_gather_indices = __riscv_vle8_v_u8m2(sign_gather_indices_arr, 64);
     vuint8m2_t v_sign_masks = __riscv_vle8_v_u8m2(sign_bit_masks_arr, 64);
-    vuint16m1_t v_qh_shifts = __riscv_vle16_v_u16m1(qh_bit_shifts_arr, 16);
+    vuint16m1_t v_qh_shifts = __riscv_vid_v_u16m1(16);
 
     float sumf = 0.0f;
 
